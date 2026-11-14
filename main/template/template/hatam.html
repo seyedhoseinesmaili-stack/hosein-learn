@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ورود به سامانه آموزشی</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&display=swap');
+
+      :root {
+        --bg1: #061d3a;
+        --bg2: #0d2d52;
+        --panel: rgba(10, 20, 35, 0.7);
+        --panel-light: rgba(255, 255, 255, 0.06);
+        --main: #4f8cff;
+        --main-strong: #2e6ef6;
+        --text: #edf5ff;
+        --muted: #bfd6f3;
+        --line: rgba(255, 255, 255, 0.12);
+        --success: #4ade80;
+        --shadow: rgba(4, 16, 30, 0.38);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html, body {
+        margin: 0;
+        min-height: 100%;
+        height: 100%;
+      }
+
+      body {
+        font-family: 'Vazirmatn', Tahoma, sans-serif;
+        background: linear-gradient(135deg, var(--bg1), var(--bg2));
+        color: var(--text);
+        display: grid;
+        place-items: center;
+      }
+
+      .login-shell {
+        width: min(95vw, 1100px);
+        min-height: 680px;
+        background: rgba(8, 17, 30, 0.56);
+        border: 1px solid var(--line);
+        border-radius: 30px;
+        overflow: hidden;
+        box-shadow: 0 30px 55px var(--shadow);
+        backdrop-filter: blur(10px);
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+      }
+
+      .brand-panel {
+        position: relative;
+        padding: 52px 42px;
+        background: linear-gradient(180deg, rgba(79, 140, 255, 0.22), rgba(255, 255, 255, 0.04));
+        border-left: 1px solid var(--line);
+      }
+
+      .brand-panel::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at top left, rgba(255,255,255,0.12), transparent 45%);
+      }
+
+      .brand-content {
+        position: relative;
+        z-index: 1;
+      }
+
+      .brand-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 16px;
+        border: 1px solid rgba(255,255,255,0.1);
+        background: rgba(255,255,255,0.04);
+        border-radius: 999px;
+        font-size: 0.8rem;
+        color: var(--muted);
+      }
+
+      .brand-badge .dot {
+        width: 10px;
+        height: 10px;
+        background: var(--success);
+        border-radius: 50%;
+        box-shadow: 0 0 12px rgba(74, 222, 128, 0.9);
+      }
+
+      .brand-title {
+        margin-top: 26px;
+        font-size: clamp(2rem, 3vw, 3.1rem);
+        line-height: 1.2;
+        font-weight: 800;
+      }
+
+      .brand-subtitle {
+        margin-top: 12px;
+        color: var(--muted);
+        font-size: 1.02rem;
+        line-height: 2;
+        max-width: 430px;
+      }
+
+      .feature-list {
+        list-style: none;
+        padding: 0;
+        margin: 34px 0 0;
+        display: grid;
+        gap: 18px;
+      }
+
+      .feature-list li {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        color: var(--text);
+        font-size: 1rem;
+      }
+
+      .feature-icon {
+        width: 38px;
+        height: 38px;
+        border-radius: 12px;
+        display: grid;
+        place-items: center;
+        background: rgba(79, 140, 255, 0.15);
+        border: 1px solid rgba(79, 140, 255, 0.24);
+        font-size: 1.2rem;
+      }
+
+      .form-panel {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 48px 36px;
+        background: rgba(9, 18, 31, 0.62);
+      }
+
+      .form-box {
+        width: min(100%, 380px);
+      }
+
+      .form-header {
+        margin-bottom: 26px;
+      }
+
+      .form-header h2 {
+        margin: 0;
+        font-size: 2rem;
+        font-weight: 800;
+      }
+
+      .form-header p {
+        margin: 8px 0 0;
+        color: var(--muted);
+        font-size: 0.92rem;
+      }
+
+      .input-group {
+        margin-bottom: 18px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 10px;
+        font-size: 0.88rem;
+        color: var(--muted);
+      }
+
+      .input-wrap {
+        position: relative;
+      }
+
+      input[type="text"],
+      input[type="email"],
+      input[type="password"] {
+        width: 100%;
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.04);
+        color: var(--text);
+        border-radius: 14px;
+        padding: 15px 16px;
+        font-size: 1rem;
+        outline: none;
+        transition: 0.25s ease;
+        font-family: 'Vazirmatn', Tahoma, sans-serif;
+      }
+
+      input:focus {
+        border-color: rgba(79, 140, 255, 0.8);
+        box-shadow: 0 0 0 4px rgba(79, 140, 255, 0.14);
+        background: rgba(255, 255, 255, 0.06);
+      }
+
+      .extras {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        margin: 10px 0 22px;
+        font-size: 0.84rem;
+      }
+
+      .check {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--muted);
+      }
+
+      .check input {
+        accent-color: var(--main);
+      }
+
+      .link {
+        color: var(--accent, #9ad3ff);
+        text-decoration: none;
+      }
+
+      button {
+        width: 100%;
+        border: none;
+        border-radius: 14px;
+        background: linear-gradient(135deg, var(--main), var(--main-strong));
+        color: white;
+        font-size: 1rem;
+        font-weight: 700;
+        padding: 15px 18px;
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        box-shadow: 0 12px 24px rgba(46, 110, 246, 0.3);
+      }
+
+      button:hover {
+        transform: translateY(-1px);
+      }
+
+      .signup {
+        text-align: center;
+        margin-top: 20px;
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+
+      .signup a {
+        color: #a1d0ff;
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      @media (max-width: 900px) {
+        .login-shell {
+          grid-template-columns: 1fr;
+          min-height: auto;
+        }
+
+        .brand-panel {
+          border-left: none;
+          border-bottom: 1px solid var(--line);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="login-shell">
+      <aside class="brand-panel">
+        <div class="brand-content">
+          <div class="brand-badge">
+            <span class="dot"></span>
+            سامانه آموزشی آنلاین
+          </div>
+
+          <h1 class="brand-title">یادگیری مؤثر، از هر جایی.</h1>
+
+          <p class="brand-subtitle">
+            به سامانه آموزش مجازی خوش آمدید. دوره‌ها، ویدیوهای آموزشی، تمرین‌ها و
+            آزمون‌ها همگی در یک مکان برای شما آماده هستند.
+          </p>
+
+          <ul class="feature-list">
+            <li>
+              <span class="feature-icon">📚</span>
+              دوره‌های آموزشی تخصصی
+            </li>
+            <li>
+              <span class="feature-icon">🎥</span>
+              کلاس‌های آنلاین و ویدئویی
+            </li>
+            <li>
+              <span class="feature-icon">✅</span>
+              تمرین، نمره و ارزیابی مستمر
+            </li>
+          </ul>
+        </div>
+      </aside>
+
+      <main class="form-panel">
+        <div class="form-box">
+          <div class="form-header">
+            <h2>ورود</h2>
+            <p>برای ادامه وارد حساب کاربری خود شوید</p>
+          </div>
+
+          <form method="post" action="">
+            {% csrf_token %}
+
+            <div class="input-group">
+              <label for="username">نام کاربری یا ایمیل</label>
+              <div class="input-wrap">
+                <input
+                  type="text"
+                  id="username"
+                  name="username"
+                  placeholder="نام کاربری خود را وارد کنید"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="input-group">
+              <label for="password">رمز عبور</label>
+              <div class="input-wrap">
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  placeholder="رمز عبور خود را وارد کنید"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="extras">
+              <label class="check">
+                <input type="checkbox" name="remember" />
+                مرا به خاطر بسپار
+              </label>
+
+              <a class="link" href="#">فراموشی رمز عبور</a>
+            </div>
+
+            <button type="submit">ورود به سامانه</button>
+          </form>
+
+          <div class="signup">
+            حساب کاربری ندارید؟
+            <a href="#">ثبت‌نام کنید</a>
+          </div>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

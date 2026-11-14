@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="دوره‌های آموزشی تخصصی موسسه حسین را ببینید و مسیر یادگیری خود را شروع کنید." />
+    <title>موسسه حسین | یادگیری برای آینده</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&display=swap");
+
+      :root {
+        --primary: #4f46e5;
+        --primary-dark: #3730a3;
+        --secondary: #7c3aed;
+        --text: #111827;
+        --muted: #64748b;
+        --line: #e2e8f0;
+        --surface: #ffffff;
+        --background: #f7f8ff;
+      }
+
+      * { box-sizing: border-box; }
+
+      html { scroll-behavior: smooth; }
+
+      body {
+        margin: 0;
+        color: var(--text);
+        background: var(--background);
+        font-family: "Vazirmatn", Tahoma, sans-serif;
+        line-height: 1.8;
+      }
+
+      a { color: inherit; text-decoration: none; }
+      button, a { font-family: inherit; }
+      .container { width: min(1160px, 92%); margin: 0 auto; }
+
+      .header {
+        position: sticky;
+        top: 0;
+        z-index: 5;
+        border-bottom: 1px solid rgba(226, 232, 240, 0.85);
+        background: rgba(255, 255, 255, 0.88);
+        backdrop-filter: blur(14px);
+      }
+
+      .nav {
+        min-height: 76px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+      }
+
+      .brand { display: flex; align-items: center; gap: 11px; font-weight: 800; }
+
+      .brand-mark {
+        width: 42px;
+        height: 42px;
+        display: grid;
+        place-items: center;
+        border-radius: 14px;
+        color: white;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        box-shadow: 0 8px 18px rgba(79, 70, 229, 0.22);
+      }
+
+      .nav-links, .nav-actions { display: flex; align-items: center; gap: 12px; }
+      .nav-links { color: var(--muted); font-weight: 600; }
+      .nav-links a { padding: 8px 12px; }
+      .nav-links a:hover { color: var(--primary); }
+
+      .btn {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 9px 18px;
+        border: 1px solid transparent;
+        border-radius: 12px;
+        font-weight: 700;
+        transition: transform 160ms ease, box-shadow 160ms ease;
+      }
+
+      .btn:hover { transform: translateY(-2px); }
+      .btn-primary {
+        color: white;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        box-shadow: 0 9px 20px rgba(79, 70, 229, 0.2);
+      }
+      .btn-light { color: var(--text); background: white; border-color: var(--line); }
+
+      .hero { padding: 54px 0 36px; }
+
+      .hero-box {
+        position: relative;
+        overflow: hidden;
+        padding: clamp(28px, 5vw, 58px);
+        border-radius: 30px;
+        color: white;
+        background:
+          radial-gradient(circle at 8% 15%, rgba(255,255,255,0.17), transparent 25%),
+          linear-gradient(125deg, #3730a3 0%, #4f46e5 48%, #7c3aed 100%);
+        box-shadow: 0 24px 55px rgba(79, 70, 229, 0.2);
+      }
+
+      .hero-box::after {
+        content: "";
+        position: absolute;
+        left: -60px;
+        bottom: -155px;
+        width: 310px;
+        height: 310px;
+        border: 1px solid rgba(255,255,255,0.15);
+        border-radius: 50%;
+        box-shadow: 0 0 0 35px rgba(255,255,255,0.035), 0 0 0 70px rgba(255,255,255,0.025);
+      }
+
+      .hero-content { position: relative; z-index: 1; max-width: 760px; }
+      .eyebrow { margin: 0 0 12px; color: #ddd6fe; font-weight: 700; }
+      .hero h1 { margin: 0 0 14px; font-size: clamp(2.1rem, 5vw, 3.65rem); line-height: 1.45; }
+      .hero p { max-width: 680px; margin: 0 0 26px; color: rgba(255,255,255,0.84); font-size: 1.04rem; }
+      .hero .btn-light { color: white; background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.24); }
+      .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+        margin: 26px 0 8px;
+      }
+
+      .stat {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        min-height: 104px;
+        padding: 18px 22px;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        background: var(--surface);
+        box-shadow: 0 10px 24px rgba(15, 23, 42, 0.035);
+      }
+
+      .stat-icon {
+        width: 50px;
+        height: 50px;
+        display: grid;
+        place-items: center;
+        flex: 0 0 auto;
+        border-radius: 15px;
+        background: #eef2ff;
+        font-size: 1.4rem;
+      }
+
+      .stat strong { display: block; font-size: 1.65rem; line-height: 1.4; }
+      .stat span { color: var(--muted); font-size: 0.9rem; }
+
+      .courses-section { padding: 50px 0 72px; }
+
+      .section-head {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 18px;
+        margin-bottom: 24px;
+      }
+
+      .section-head h2 { margin: 0; font-size: clamp(1.6rem, 3vw, 2.2rem); }
+      .section-head p { margin: 4px 0 0; color: var(--muted); }
+      .section-count { color: var(--primary); font-weight: 700; white-space: nowrap; }
+
+      .course-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 22px;
+      }
+
+      .course-card {
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        min-height: 330px;
+        border: 1px solid var(--line);
+        border-radius: 22px;
+        background: var(--surface);
+        box-shadow: 0 12px 30px rgba(15, 23, 42, 0.045);
+        transition: transform 180ms ease, box-shadow 180ms ease;
+      }
+
+      .course-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 38px rgba(49, 46, 129, 0.11);
+      }
+
+      .course-cover {
+        min-height: 112px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px 22px;
+        color: white;
+        background: linear-gradient(135deg, #4f46e5, #8b5cf6);
+      }
+
+      .course-card:nth-child(3n + 2) .course-cover { background: linear-gradient(135deg, #0f766e, #14b8a6); }
+      .course-card:nth-child(3n) .course-cover { background: linear-gradient(135deg, #c2410c, #f59e0b); }
+      .cover-icon { font-size: 2rem; }
+      .course-label { padding: 5px 10px; border: 1px solid rgba(255,255,255,0.3); border-radius: 999px; background: rgba(255,255,255,0.13); font-size: 0.78rem; font-weight: 700; }
+      .course-body { display: flex; flex: 1; flex-direction: column; padding: 20px 22px 22px; }
+      .course-body h3 { margin: 0 0 9px; font-size: 1.2rem; line-height: 1.7; }
+      .course-body p { flex: 1; margin: 0 0 18px; color: var(--muted); font-size: 0.92rem; line-height: 1.9; }
+
+      .course-meta {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 18px;
+        padding-top: 13px;
+        border-top: 1px solid #f1f5f9;
+        color: var(--muted);
+        font-size: 0.85rem;
+      }
+
+      .course-link { display: flex; justify-content: space-between; align-items: center; color: var(--primary); font-weight: 700; }
+      .empty-state {
+        padding: 42px 24px;
+        border: 1px dashed #cbd5e1;
+        border-radius: 22px;
+        background: rgba(255,255,255,0.65);
+        text-align: center;
+      }
+      .empty-state-icon { font-size: 2.4rem; }
+      .empty-state h3 { margin: 8px 0; }
+      .empty-state p { margin: 0; color: var(--muted); }
+
+      footer { border-top: 1px solid var(--line); background: white; }
+      .footer-inner {
+        min-height: 82px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+
+      @media (max-width: 900px) {
+        .course-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      }
+
+      @media (max-width: 650px) {
+        .nav { flex-wrap: wrap; justify-content: center; padding: 14px 0; }
+        .nav-links { order: 3; width: 100%; justify-content: center; }
+        .nav-actions { gap: 8px; }
+        .hero { padding-top: 28px; }
+        .hero-box { border-radius: 22px; }
+        .stats, .course-grid { grid-template-columns: 1fr; }
+        .stat { min-height: 88px; }
+        .section-head, .footer-inner { align-items: flex-start; flex-direction: column; }
+        .footer-inner { justify-content: center; padding: 18px 0; }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="header">
+      <div class="container nav">
+        <a class="brand" href="{% url 'home' %}">
+          <span class="brand-mark">🎓</span>
+          <span>موسسه حسین</span>
+        </a>
+
+        <nav class="nav-links" aria-label="ناوبری اصلی">
+          <a href="{% url 'home' %}">خانه</a>
+          <a href="#courses">دوره‌ها</a>
+        </nav>
+
+        <div class="nav-actions">
+          {% if user.is_authenticated %}
+            <a class="btn btn-primary" href="{% url 'dashboard' %}">داشبورد من</a>
+          {% else %}
+            <a class="btn btn-light" href="{% url 'login' %}">ورود</a>
+            <a class="btn btn-primary" href="{% url 'register' %}">ثبت‌نام</a>
+          {% endif %}
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="container">
+          <div class="hero-box">
+            <div class="hero-content">
+              <p class="eyebrow">یادگیری مهارت‌های کاربردی</p>
+              <h1>قدم بعدی مسیر حرفه‌ای‌ات را با یک دوره خوب شروع کن</h1>
+              <p>
+                دوره‌های فعال آموزشگاه را بررسی کن، توضیحات هر دوره را بخوان و با ثبت‌نام،
+                یادگیری را در فضای اختصاصی دانشجویان ادامه بده.
+              </p>
+              <div class="hero-actions">
+                <a class="btn btn-light" href="#courses">دیدن دوره‌ها</a>
+                {% if user.is_authenticated %}
+                  <a class="btn btn-primary" href="{% url 'dashboard' %}">رفتن به داشبورد</a>
+                {% else %}
+                  <a class="btn btn-primary" href="{% url 'register' %}">ساخت حساب کاربری</a>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+
+          <div class="stats" aria-label="آمار آموزشگاه">
+            <div class="stat">
+              <span class="stat-icon" aria-hidden="true">👩‍🎓</span>
+              <div>
+                <strong>{{ students_count }}</strong>
+                <span>دانشجوی ثبت‌نام‌شده</span>
+              </div>
+            </div>
+            <div class="stat">
+              <span class="stat-icon" aria-hidden="true">📚</span>
+              <div>
+                <strong>{{ courses_count }}</strong>
+                <span>دوره فعال</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="courses-section" id="courses">
+        <div class="container">
+          <div class="section-head">
+            <div>
+              <h2>دوره‌های فعال</h2>
+              <p>دوره‌هایی که توسط آموزشگاه منتشر شده‌اند.</p>
+            </div>
+            <span class="section-count">{{ courses_count }} دوره</span>
+          </div>
+
+          {% if courses %}
+            <div class="course-grid">
+              {% for course in courses %}
+                <article class="course-card">
+                  <div class="course-cover">
+                    <span class="course-label">دوره فعال</span>
+                    <span class="cover-icon" aria-hidden="true">✦</span>
+                  </div>
+                  <div class="course-body">
+                    <h3>{{ course.title }}</h3>
+                    <p>
+                      {% if course.description %}
+                        {{ course.description|truncatewords:32 }}
+                      {% else %}
+                        برای آشنایی با سرفصل‌ها و اطلاعات بیشتر این دوره، پس از ثبت‌نام وارد پنل دانشجویی شوید.
+                      {% endif %}
+                    </p>
+                    <div class="course-meta">
+                      <span>🎬 {{ course.video_count }} جلسه آموزشی</span>
+                      <span>دسترسی پس از ورود</span>
+                    </div>
+                    {% if user.is_authenticated %}
+                      <a class="course-link" href="{% url 'dashboard' %}">
+                        مشاهده در داشبورد <span aria-hidden="true">←</span>
+                      </a>
+                    {% else %}
+                      <a class="course-link" href="{% url 'register' %}">
+                        ثبت‌نام برای شروع <span aria-hidden="true">←</span>
+                      </a>
+                    {% endif %}
+                  </div>
+                </article>
+              {% endfor %}
+            </div>
+          {% else %}
+            <div class="empty-state">
+              <div class="empty-state-icon" aria-hidden="true">📚</div>
+              <h3>به‌زودی دوره‌های جدید</h3>
+              <p>در حال حاضر دوره فعالی منتشر نشده است. دوره‌های جدید پس از انتشار در همین صفحه نمایش داده می‌شوند.</p>
+            </div>
+          {% endif %}
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container footer-inner">
+        <span>© موسسه حسین</span>
+        <a href="#courses">مشاهده دوره‌های فعال</a>
+      </div>
+    </footer>
+  </body>
+</html>

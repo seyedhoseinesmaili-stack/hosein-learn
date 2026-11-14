@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>خانه | موسسه حسین</title>
+    <style>
+      :root {
+        --primary: #4f46e5;
+        --primary-dark: #312e81;
+        --secondary: #7c3aed;
+        --bg: #f5f7ff;
+        --card: #ffffff;
+        --text: #1f2937;
+        --muted: #6b7280;
+        --line: #e5e7eb;
+        --success: #16a34a;
+        --warning: #f59e0b;
+        --shadow: 0 18px 40px rgba(79, 70, 229, 0.12);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        font-family: Tahoma, sans-serif;
+        background: linear-gradient(180deg, #f8faff 0%, #eef2ff 100%);
+        color: var(--text);
+      }
+
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+
+      img {
+        max-width: 100%;
+        display: block;
+      }
+
+      .container {
+        width: min(1200px, 92%);
+        margin: 0 auto;
+      }
+
+      .header {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background: rgba(255, 255, 255, 0.72);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid rgba(229, 231, 235, 0.8);
+      }
+
+      .nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 80px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 800;
+        font-size: 1.1rem;
+      }
+
+      .brand-mark {
+        width: 42px;
+        height: 42px;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: white;
+        border-radius: 12px;
+        display: grid;
+        place-items: center;
+        font-size: 1.2rem;
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 28px;
+        color: var(--muted);
+        font-weight: 600;
+      }
+
+      .nav-links a:hover {
+        color: var(--primary);
+      }
+
+      .nav-actions {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12px;
+        padding: 12px 20px;
+        font-weight: 700;
+        border: 1px solid transparent;
+        transition: 0.2s ease;
+        cursor: pointer;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: white;
+        box-shadow: 0 12px 24px rgba(79, 70, 229, 0.25);
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-1px);
+      }
+
+      .btn-light {
+        background: #fff;
+        color: var(--text);
+        border-color: var(--line);
+      }
+
+      .hero {
+        padding: 56px 0 36px;
+      }
+
+      .hero-box {
+        background: linear-gradient(135deg, rgba(79, 70, 229, 0.97), rgba(124, 58, 237, 0.9));
+        border-radius: 30px;
+        padding: 36px 36px 20px;
+        box-shadow: var(--shadow);
+        overflow: hidden;
+      }
+
+      .hero-inner {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        align-items: center;
+        gap: 30px;
+      }
+
+      .hero-text h1 {
+        margin: 0 0 18px;
+        color: white;
+        font-size: clamp(2rem, 4vw, 3.5rem);
+        line-height: 1.4;
+      }
+
+      .hero-text p {
+        margin: 0 0 28px;
+        color: rgba(255, 255, 255, 0.8);
+        line-height: 2;
+        font-size: 1.02rem;
+      }
+
+      .hero-actions {
+        display: flex;
+        gap: 14px;
+        flex-wrap: wrap;
+      }
+
+      .hero-actions .btn-light {
+        background: rgba(255, 255, 255, 0.12);
+        color: white;
+        border-color: rgba(255, 255, 255, 0.2);
+      }
+
+      .hero-card {
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        border-radius: 22px;
+        padding: 18px;
+        backdrop-filter: blur(8px);
+      }
+
+      .mini-card {
+        background: white;
+        border-radius: 18px;
+        padding: 18px;
+        color: var(--text);
+        margin-bottom: 14px;
+      }
+
+      .mini-card:last-child {
+        margin-bottom: 0;
+      }
+
+      .mini-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+        font-weight: 700;
+      }
+
+      .badge {
+        background: #eef2ff;
+        color: var(--primary);
+        border-radius: 999px;
+        padding: 6px 10px;
+        font-size: 0.75rem;
+        font-weight: 700;
+      }
+
+      .chart {
+        height: 110px;
+        border-radius: 14px;
+        background: linear-gradient(180deg, #eef2ff, #e0e7ff);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .chart .bar {
+        position: absolute;
+        bottom: 0;
+        width: 18%;
+        background: linear-gradient(180deg, #8b5cf6, #4f46e5);
+        border-radius: 12px 12px 0 0;
+      }
+
+      .chart .bar:nth-child(1) { left: 8%; height: 52%; }
+      .chart .bar:nth-child(2) { left: 28%; height: 76%; }
+      .chart .bar:nth-child(3) { left: 48%; height: 64%; }
+      .chart .bar:nth-child(4) { left: 68%; height: 90%; }
+
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(160px, 1fr));
+        gap: 20px;
+        margin-top: 36px;
+      }
+
+      .stat {
+        background: rgba(255, 255, 255, 0.7);
+        border: 1px solid rgba(229, 231, 235, 0.9);
+        border-radius: 20px;
+        padding: 22px 18px;
+        text-align: center;
+        box-shadow: 0 8px 24px rgba(17, 24, 39, 0.04);
+      }
+
+      .stat strong {
+        display: block;
+        font-size: 2rem;
+        margin-bottom: 8px;
+      }
+
+      .stat span {
+        color: var(--muted);
+        font-weight: 600;
+      }
+
+      section {
+        padding: 26px 0;
+      }
+
+      .section-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+      }
+
+      .section-head h2 {
+        margin: 0;
+        font-size: 2rem;
+      }
+
+      .chip {
+        background: #eef2ff;
+        color: var(--primary);
+        padding: 8px 12px;
+        border-radius: 999px;
+        font-size: 0.82rem;
+        font-weight: 700;
+      }
+
+      .resource-grid,
+      .video-grid,
+      .class-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(250px, 1fr));
+        gap: 22px;
+      }
+
+      .card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 22px;
+        overflow: hidden;
+        box-shadow: 0 12px 32px rgba(15, 23, 42, 0.04);
+      }
+
+      .card-thumb {
+        height: 180px;
+        background: linear-gradient(135deg, #e0e7ff, #ddd6fe);
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 3rem;
+      }
+
+      .play {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        background: rgba(79, 70, 229, 0.9);
+        display: grid;
+        place-items: center;
+        color: white;
+        box-shadow: 0 12px 24px rgba(79, 70, 229, 0.25);
+      }
+
+      .card-body {
+        padding: 18px 18px 20px;
+      }
+
+      .meta {
+        display: flex;
+        justify-content: space-between;
+        color: var(--muted);
+        font-size: 0.8rem;
+        margin-bottom: 10px;
+      }
+
+      .card h3 {
+        margin: 0 0 12px;
+        font-size: 1.2rem;
+      }
+
+      .card p {
+        margin: 0 0 18px;
+        color: var(--muted);
+        line-height: 1.8;
+        font-size: 0.92rem;
+      }
+
+      .card-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .price {
+        font-weight: 800;
+        color: var(--primary);
+        font-size: 1.15rem;
+      }
+
+      .tag {
+        background: #ecfdf5;
+        color: #047857;
+        border-radius: 999px;
+        padding: 7px 10px;
+        font-size: 0.78rem;
+        font-weight: 700;
+      }
+
+      .class-card .card-thumb {
+        background: linear-gradient(135deg, #dbeafe, #c7d2fe);
+      }
+
+      .class-card .meta {
+        color: var(--primary);
+        font-weight: 700;
+      }
+
+      .calendar {
+        padding: 28px 0 30px;
+      }
+
+      .calendar-box {
+        background: white;
+        border: 1px solid var(--line);
+        border-radius: 24px;
+        padding: 24px;
+        box-shadow: 0 12px 32px rgba(15, 23, 42, 0.04);
+      }
+
+      .calendar-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(180px, 1fr));
+        gap: 18px;
+      }
+
+      .day {
+        background: #f9fafb;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 18px 14px;
+      }
+
+      .day-name {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+        font-weight: 700;
+      }
+
+      .lesson {
+        background: #eef2ff;
+        color: var(--primary);
+        border-radius: 10px;
+        padding: 10px 12px;
+        margin-top: 10px;
+        font-weight: 700;
+        font-size: 0.82rem;
+      }
+
+      footer {
+        background: #0f172a;
+        color: #e5e7eb;
+        margin-top: 30px;
+      }
+
+      .footer-inner {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+        min-height: 90px;
+      }
+
+      .footer-links {
+        display: flex;
+        gap: 20px;
+        color: #cbd5e1;
+      }
+
+      @media (max-width: 980px) {
+        .hero-inner,
+        .resource-grid,
+        .video-grid,
+        .class-grid,
+        .calendar-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+
+        .hero-inner {
+          grid-template-columns: 1fr;
+        }
+
+        .stats {
+          grid-template-columns: repeat(2, minmax(140px, 1fr));
+        }
+      }
+
+      @media (max-width: 680px) {
+        .nav {
+          flex-wrap: wrap;
+          justify-content: center;
+          gap: 16px;
+          padding: 14px 0;
+        }
+
+        .nav-links,
+        .nav-actions {
+          width: 100%;
+          justify-content: center;
+          flex-wrap: wrap;
+        }
+
+        .resource-grid,
+        .video-grid,
+        .class-grid,
+        .calendar-grid,
+        .stats {
+          grid-template-columns: 1fr;
+        }
+
+        .section-head {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 12px;
+        }
+
+        .footer-inner {
+          flex-direction: column;
+          justify-content: center;
+          text-align: center;
+          padding: 18px 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="header">
+      <div class="container nav">
+        <div class="brand">
+          <div class="brand-mark">🎓</div>
+          <span>موسسه حسین</span>
+        </div>
+
+        <nav class="nav-links">
+          <a href="#">خانه</a>
+          <a href="#">دوره‌ها</a>
+          <a href="#">جزوه‌ها</a>
+          <a href="#">ویدیوها</a>
+          <a href="#">کلاس‌ها</a>
+          <a href="#">درباره ما</a>
+        </nav>
+
+        <div class="nav-actions">
+          <a class="btn btn-light" href="#">ورود</a>
+          <a class="btn btn-primary" href="#">ثبت نام</a>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="container">
+          <div class="hero-box">
+            <div class="hero-inner">
+              <div class="hero-text">
+                <h1>یادگیری هدفمند، مسیر موفقیت شما</h1>
+                <p>
+                  دوره‌های تخصصی، جزوه‌های کاربردی و کلاس‌های آنلاین برای یادگیری
+                  سریع‌تر و حرفه‌ای‌تر. از صفر تا حرفه‌ای با بهترین اساتید همراه
+                  باشید.
+                </p>
+
+                <div class="hero-actions">
+                  <a class="btn btn-primary" href="#">شروع یادگیری</a>
+                  <a class="btn btn-light" href="#">مشاهده دوره‌ها</a>
+                </div>
+              </div>
+
+              <div class="hero-card">
+                <div class="mini-card">
+                  <div class="mini-top">
+                    <span>پیشرفت شما</span>
+                    <span class="badge">+18%</span>
+                  </div>
+                  <div class="chart">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                  </div>
+                </div>
+
+                <div class="mini-card">
+                  <div class="mini-top">
+                    <span>دوره فعال</span>
+                    <span class="badge">۱۲ دوره</span>
+                  </div>
+                  <div style="font-size: 0.95rem; color: var(--muted); line-height: 1.8;">
+                    HTML / CSS / JavaScript<br />
+                    پروژه محور و تمرین‌محور
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="stats">
+            <div class="stat">
+              <strong>۱۲k+</strong>
+              <span>دانشجو</span>
+            </div>
+            <div class="stat">
+              <strong>240+</strong>
+              <span>دوره آموزشی</span>
+            </div>
+            <div class="stat">
+              <strong>95%</strong>
+              <span>رضایت کاربران</span>
+            </div>
+            <div class="stat">
+              <strong>4.9</strong>
+              <span>امتیاز میانگین</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="container">
+          <div class="section-head">
+            <h2>جزوه‌های آموزشی</h2>
+            <span class="chip">به‌روز و کاربردی</span>
+          </div>
+
+          <div class="resource-grid">
+            <article class="card">
+              <div class="card-thumb">📘</div>
+              <div class="card-body">
+                <div class="meta">
+                  <span>HTML</span>
+                  <span>۴ صفحه</span>
+                </div>
+                <h3>آموزش ساختار صفحه</h3>
+                <p>آشنایی با تگ‌ها، ساختار اصلی صفحه و نحوه‌ی درست نوشتن کدهای HTML.</p>
+                <div class="card-footer">
+                  <span class="price">رایگان</span>
+                  <span class="tag">جزوه</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="card">
+              <div class="card-thumb">📗</div>
+              <div class="card-body">
+                <div class="meta">
+                  <span>CSS</span>
+                  <span>۶ صفحه</span>
+                </div>
+                <h3>طراحی و استایل دهی</h3>
+                <p>یادگیری رنگ‌ها، فاصله‌ها، دکمه‌ها و ساختارهای ظاهری برای صفحات زیبا.</p>
+                <div class="card-footer">
+                  <span class="price">رایگان</span>
+                  <span class="tag">جزوه</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="card">
+              <div class="card-thumb">📙</div>
+              <div class="card-body">
+                <div class="meta">
+                  <span>JavaScript</span>
+                  <span>۸ صفحه</span>
+                </div>
+                <h3>منطق برنامه‌نویسی</h3>
+                <p>کار با متغیرها، توابع، شرط‌ها و رویدادها برای ساخت تجربه‌های تعاملی.</p>
+                <div class="card-footer">
+                  <span class="price">رایگان</span>
+                  <span class="tag">جزوه</span>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="container">
+          <div class="section-head">
+            <h2>ویدیوهای آموزشی</h2>
+            <span class="chip">پیشرفته و کاربردی</span>
+          </div>
+
+          <div class="video-grid">
+            <article class="card">
+              <div class="card-thumb">
+                <div class="play">▶</div>
+              </div>
+              <div class="card-body">
+                <div class="meta">
+                  <span>۶۰ دقیقه</span>
+                  <span>سطح مقدماتی</span>
+                </div>
+                <h3>آموزش HTML از صفر</h3>
+                <p>ساخت اولین صفحه وب و آشنایی با تگ‌های مهم و اصول پایه طراحی.</p>
+                <div class="card-footer">
+                  <span class="price">۱۲۰,۰۰۰ تومان</span>
+                  <span class="tag">ویدیو</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="card">
+              <div class="card-thumb">
+                <div class="play">▶</div>
+              </div>
+              <div class="card-body">
+                <div class="meta">
+                  <span>۹۰ دقیقه</span>
+                  <span>سطح متوسط</span>
+                </div>
+                <h3>دوره CSS حرفه‌ای</h3>
+                <p>ساخت قالب‌های حرفه‌ای، ریسپانسیو و طراحی ظاهری جذاب برای وب‌سایت‌ها.</p>
+                <div class="card-footer">
+                  <span class="price">۱۸۰,۰۰۰ تومان</span>
+                  <span class="tag">ویدیو</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="card">
+              <div class="card-thumb">
+                <div class="play">▶</div>
+              </div>
+              <div class="card-body">
+                <div class="meta">
+                  <span>۱۲۰ دقیقه</span>
+                  <span>سطح پیشرفته</span>
+                </div>
+                <h3>JavaScript برای پروژه‌محور</h3>
+                <p>کار با DOM، تعاملات، API و مدیریت وضعیت برای ساخت برنامه‌های واقعی.</p>
+                <div class="card-footer">
+                  <span class="price">۲۴۰,۰۰۰ تومان</span>
+                  <span class="tag">ویدیو</span>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="container">
+          <div class="section-head">
+            <h2>کلاس‌های آنلاین</h2>
+            <span class="chip">برنامه‌ریزی‌شده</span>
+          </div>
+
+          <div class="class-grid">
+            <article class="card class-card">
+              <div class="card-thumb">🧑‍💻</div>
+              <div class="card-body">
+                <div class="meta">
+                  <span>شنبه</span>
+                  <span>۱۸:۰۰</span>
+                </div>
+                <h3>کلاس Front-End</h3>
+                <p>آموزش HTML، CSS و JavaScript به صورت پروژه‌محور با تمرین‌های هفتگی.</p>
+                <div class="card-footer">
+                  <span class="price">۱,۲۰۰,۰۰۰ تومان</span>
+                  <span class="tag">فعال</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="card class-card">
+              <div class="card-thumb">📊</div>
+              <div class="card-body">
+                <div class="meta">
+                  <span>یکشنبه</span>
+                  <span>۲۰:۰۰</span>
+                </div>
+                <h3>کلاس UI/UX</h3>
+                <p>مطالعه تجربه کاربری، طراحی رابط، رنگ‌بندی و ساخت تجربه بهتر برای کاربر.</p>
+                <div class="card-footer">
+                  <span class="price">۹۵۰,۰۰۰ تومان</span>
+                  <span class="tag">فعال</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="card class-card">
+              <div class="card-thumb">🚀</div>
+              <div class="card-body">
+                <div class="meta">
+                  <span>دوشنبه</span>
+                  <span>۱۹:۳۰</span>
+                </div>
+                <h3>کلاس توسعه وب</h3>
+                <p>ساخت پروژه‌های واقعی و کاربردی با تمرکز روی مهارت‌های بازار کار و سئول.</p>
+                <div class="card-footer">
+                  <span class="price">۱,۴۰۰,۰۰۰ تومان</span>
+                  <span class="tag">فعال</span>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="calendar">
+        <div class="container">
+          <div class="section-head">
+            <h2>تقویم کلاس‌ها</h2>
+            <span class="chip">هفته جاری</span>
+          </div>
+
+          <div class="calendar-box">
+            <div class="calendar-grid">
+              <div class="day">
+                <div class="day-name">
+                  <span>شنبه</span>
+                  <span>۲۲</span>
+                </div>
+                <div class="lesson">Front-End</div>
+                <div class="lesson">HTML Fundamentals</div>
+              </div>
+
+              <div class="day">
+                <div class="day-name">
+                  <span>یکشنبه</span>
+                  <span>۲۳</span>
+                </div>
+                <div class="lesson">UI/UX</div>
+                <div class="lesson">Wireframe Design</div>
+              </div>
+
+              <div class="day">
+                <div class="day-name">
+                  <span>دوشنبه</span>
+                  <span>۲۴</span>
+                </div>
+                <div class="lesson">JavaScript</div>
+                <div class="lesson">Event Handling</div>
+              </div>
+
+              <div class="day">
+                <div class="day-name">
+                  <span>سه‌شنبه</span>
+                  <span>۲۵</span>
+                </div>
+                <div class="lesson">Project Review</div>
+                <div class="lesson">Q&A Session</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container footer-inner">
+        <div>© موسسه حسین</div>
+        <div class="footer-links">
+          <a href="#">دوره‌ها</a>
+          <a href="#">جزوه‌ها</a>
+          <a href="#">کلاس‌ها</a>
+          <a href="#">تماس با ما</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

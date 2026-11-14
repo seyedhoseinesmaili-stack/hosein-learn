@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ course.title }} | دوره</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&display=swap");
+      :root {
+        --primary: #4f46e5;
+        --secondary: #7c3aed;
+        --bg: #f4f7ff;
+        --card: #ffffff;
+        --text: #111827;
+        --muted: #4b5563;
+        --line: #e5e7eb;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: "Vazirmatn", Tahoma, sans-serif;
+        background: linear-gradient(180deg, #f8faff 0%, #edf2ff 100%);
+        color: var(--text);
+      }
+      .container { width: min(1100px, 92%); margin: 0 auto; }
+      .topbar { background: rgba(255,255,255,0.9); border-bottom: 1px solid var(--line); }
+      .topbar-inner {
+        min-height: 72px; display: flex; align-items: center; justify-content: space-between;
+      }
+      .brand { display: flex; align-items: center; gap: 12px; font-weight: 800; }
+      .brand-mark {
+        width: 38px; height: 38px; border-radius: 12px; display: grid; place-items: center;
+        background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white;
+      }
+      .nav { display: flex; align-items: center; gap: 14px; }
+      .btn {
+        padding: 10px 16px; border-radius: 12px; border: none; font-family: inherit; font-weight: 700; cursor: pointer; text-decoration: none;
+      }
+      .btn-light {
+        background: rgba(79,70,229,0.08); color: var(--primary); border: 1px solid rgba(79,70,229,0.1);
+      }
+      .btn-primary {
+        background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white;
+      }
+      .page { padding: 30px 0 50px; }
+      .course-header {
+        background: linear-gradient(135deg, rgba(79,70,229,0.98), rgba(124,58,237,0.92));
+        border-radius: 24px; color: white; padding: 28px; margin-bottom: 24px;
+      }
+      .course-header h1 { margin: 0 0 12px; font-size: clamp(2rem, 4vw, 2.5rem); }
+      .course-header p { margin: 0; line-height: 2; color: rgba(255,255,255,0.9); }
+      .progress-wrap {
+        background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 18px; padding: 16px; margin-top: 18px;
+      }
+      .progress-label { display: flex; justify-content: space-between; margin-bottom: 10px; }
+      .progress-bar {
+        height: 12px; background: rgba(255,255,255,0.12); border-radius: 999px; overflow: hidden;
+      }
+      .progress-bar span {
+        display: block; height: 100%; width: {{ progress }}%; background: linear-gradient(90deg, #f59e0b, #f97316, #ef4444); border-radius: inherit;
+      }
+      .layout { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 24px; }
+      .panel {
+        background: white; border: 1px solid var(--line); border-radius: 20px; padding: 22px; box-shadow: 0 12px 22px rgba(15,23,42,0.04);
+      }
+      .video-list { display: grid; gap: 18px; }
+      .video-item { border: 1px solid var(--line); border-radius: 16px; overflow: hidden; background: linear-gradient(180deg, #ffffff 0%, #f8faff 100%); }
+      .video-item iframe { width: 100%; height: 260px; display: block; border: 0; }
+      .video-info { padding: 14px 16px 16px; }
+      .video-info h3 { margin: 0 0 12px; font-size: 1.1rem; }
+      .video-actions { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+      .done-badge {
+        background: #eafaf1; color: #0f8a5b; border-radius: 999px; padding: 6px 10px; font-size: 0.8rem; font-weight: 700;
+      }
+      form { margin: 0; }
+      button {
+        border: none; border-radius: 10px; background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; font-family: inherit; font-weight: 700; padding: 9px 12px; cursor: pointer;
+      }
+      .summary {
+        display: grid; gap: 16px;
+      }
+      .summary-card {
+        background: #f4f7ff; border: 1px solid var(--line); border-radius: 16px; padding: 16px;
+      }
+      .summary-card small { display: block; color: var(--muted); margin-bottom: 8px; }
+      @media (max-width: 900px) {
+        .layout { grid-template-columns: 1fr; }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="container topbar-inner">
+        <div class="brand">
+          <div class="brand-mark">🎓</div>
+          <span>موسسه حسین</span>
+        </div>
+        <div class="nav">
+          <a href="{% url 'dashboard' %}" class="btn btn-light">داشبورد</a>
+          <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary">خروج</button>
+          </form>
+        </div>
+      </div>
+    </header>
+
+    <main class="page">
+      <div class="container">
+        <section class="course-header">
+          <h1>{{ course.title }}</h1>
+          <p>{{ course.description }}</p>
+          <div class="progress-wrap">
+            <div class="progress-label">
+              <span>پیشرفت شما</span>
+              <strong>{{ progress }}٪</strong>
+            </div>
+            <div class="progress-bar"><span></span></div>
+          </div>
+        </section>
+
+        <section class="layout">
+          <div class="panel">
+            <div class="video-list">
+              {% for video in videos %}
+                <div class="video-item">
+                  {% if video.has_local_file %}
+                    <video class="tracked-video" data-video-id="{{ video.id }}" controls preload="metadata" style="width:100%; height:260px; background:#0f172a; display:block;">
+                      <source src="{{ video.video_file.url }}" type="video/mp4" />
+                      مرورگر شما از نمایش ویدیو پشتیبانی نمی‌کند.
+                    </video>
+                  {% elif "youtube.com/embed/" in video.embed_url %}
+                    <iframe class="youtube-player" data-video-id="{{ video.id }}" src="{{ video.embed_url }}?enablejsapi=1&amp;origin={{ request.scheme }}://{{ request.get_host }}" title="{{ video.title }}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                  {% else %}
+                    <iframe src="{{ video.embed_url }}" title="{{ video.title }}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                  {% endif %}
+                  <div class="video-info">
+                    <h3>{{ video.title }}</h3>
+                    <div class="video-actions">
+                      <span>جلسه {{ forloop.counter }}</span>
+                      <form class="completion-form" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="video_id" value="{{ video.id }}" />
+                        {% if video in completed_videos %}
+                          <span class="done-badge">تکمیل شده</span>
+                        {% else %}
+                          <button type="submit">تکمیل ویدئو</button>
+                        {% endif %}
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              {% empty %}
+                <div class="summary-card">هنوز ویدیویی برای این دوره ثبت نشده است.</div>
+              {% endfor %}
+            </div>
+          </div>
+
+          <aside class="panel">
+            <h3 style="margin-top:0;">خلاصه دوره</h3>
+            <div class="summary">
+              <div class="summary-card">
+                <small>تعداد ویدیوها</small>
+                <strong>{{ videos|length }}</strong>
+              </div>
+              <div class="summary-card">
+                <small>تکمیل‌شده</small>
+                <strong>{{ completed_videos|length }}</strong>
+              </div>
+              <div class="summary-card">
+                <small>درصد پیشرفت</small>
+                <strong>{{ progress }}٪</strong>
+              </div>
+            </div>
+          </aside>
+        </section>
+      </div>
+    </main>
+    <script>
+      function sendVideoProgress(form, action, value) {
+        const data = new FormData(form);
+        data.set("action", action);
+        if (action === "duration" && value) {
+          data.set("duration_seconds", Math.round(value).toString());
+        } else if (action === "watch_time" && value) {
+          data.set("watched_seconds", Math.floor(value).toString());
+        }
+
+        return fetch(window.location.href, {
+          method: "POST",
+          body: data,
+          credentials: "same-origin",
+          keepalive: true,
+        }).then((response) => {
+          if (!response.ok) {
+            throw new Error("ثبت زمان تماشا با خطا روبه‌رو شد.");
+          }
+          return response;
+        });
+      }
+
+      document.querySelectorAll(".tracked-video").forEach((video) => {
+        const form = video.closest(".video-item").querySelector(".completion-form");
+        let lastTick = null;
+        let pendingSeconds = 0;
+        let watchRequests = Promise.resolve();
+
+        function queueWatchTime(seconds) {
+          watchRequests = watchRequests
+            .catch((error) => console.error(error))
+            .then(() => sendVideoProgress(form, "watch_time", seconds));
+          return watchRequests;
+        }
+
+        function collectWatchTime(force = false) {
+          const now = performance.now();
+          if (lastTick !== null && (force || (!video.paused && !video.seeking))) {
+            const elapsed = ((now - lastTick) / 1000) * video.playbackRate;
+            if (elapsed > 0 && elapsed <= 15) {
+              pendingSeconds += elapsed;
+            }
+          }
+          lastTick = force || video.paused || video.seeking ? null : now;
+        }
+
+        function flushWatchTime() {
+          const seconds = Math.floor(pendingSeconds);
+          if (seconds < 1) {
+            return Promise.resolve();
+          }
+          pendingSeconds -= seconds;
+          return queueWatchTime(seconds);
+        }
+
+        video.addEventListener("loadedmetadata", () => {
+          sendVideoProgress(form, "duration", video.duration).catch((error) => console.error(error));
+        });
+        video.addEventListener("playing", () => {
+          lastTick = performance.now();
+        });
+        video.addEventListener("seeking", () => {
+          lastTick = null;
+        });
+        video.addEventListener("seeked", () => {
+          if (!video.paused) {
+            lastTick = performance.now();
+          }
+        });
+        video.addEventListener("pause", () => {
+          collectWatchTime(true);
+          flushWatchTime().catch((error) => console.error(error));
+        });
+        window.setInterval(() => {
+          collectWatchTime();
+          if (pendingSeconds >= 10) {
+            flushWatchTime().catch((error) => console.error(error));
+          }
+        }, 5000);
+        window.addEventListener("pagehide", () => {
+          collectWatchTime(true);
+          flushWatchTime().catch((error) => console.error(error));
+        });
+        video.addEventListener("ended", () => {
+          collectWatchTime(true);
+          flushWatchTime()
+            .then(() => watchRequests)
+            .then(() => sendVideoProgress(form, "complete", video.duration))
+            .then((response) => {
+              if (!response.ok) {
+                throw new Error("ثبت تکمیل ویدیو با خطا روبه‌رو شد.");
+              }
+              window.location.reload();
+            })
+            .catch((error) => console.error(error));
+        });
+      });
+
+      const youtubeFrames = document.querySelectorAll(".youtube-player");
+      if (youtubeFrames.length) {
+        window.onYouTubeIframeAPIReady = function () {
+          youtubeFrames.forEach((frame) => {
+            const form = frame.closest(".video-item").querySelector(".completion-form");
+            let durationSaved = false;
+            let lastMediaTime = null;
+            let pendingSeconds = 0;
+            let watchRequests = Promise.resolve();
+            let player;
+
+            function queueYoutubeWatchTime(seconds) {
+              watchRequests = watchRequests
+                .catch((error) => console.error(error))
+                .then(() => sendVideoProgress(form, "watch_time", seconds));
+              return watchRequests;
+            }
+
+            function sampleYoutubeWatchTime(includePausedInterval = false) {
+              if (!player) {
+                return;
+              }
+              const state = player.getPlayerState();
+              if (state !== YT.PlayerState.PLAYING && !includePausedInterval) {
+                lastMediaTime = null;
+                return;
+              }
+
+              const currentTime = player.getCurrentTime();
+              if (lastMediaTime !== null) {
+                const elapsed = currentTime - lastMediaTime;
+                if (elapsed > 0 && elapsed <= 15) {
+                  pendingSeconds += elapsed;
+                }
+              }
+              lastMediaTime = state === YT.PlayerState.PLAYING ? currentTime : null;
+
+              const seconds = Math.floor(pendingSeconds);
+              if (seconds >= 10) {
+                pendingSeconds -= seconds;
+                queueYoutubeWatchTime(seconds).catch((error) => console.error(error));
+              }
+            }
+
+            function flushYoutubeWatchTime() {
+              const seconds = Math.floor(pendingSeconds);
+              if (seconds < 1) {
+                return Promise.resolve();
+              }
+              pendingSeconds -= seconds;
+              return queueYoutubeWatchTime(seconds);
+            }
+
+            player = new YT.Player(frame, {
+              events: {
+                onReady: (event) => {
+                  const duration = event.target.getDuration();
+                  if (duration > 0) {
+                    sendVideoProgress(form, "duration", duration).catch((error) => console.error(error));
+                    durationSaved = true;
+                  }
+                  window.setInterval(sampleYoutubeWatchTime, 5000);
+                  window.addEventListener("pagehide", () => {
+                    sampleYoutubeWatchTime(true);
+                    flushYoutubeWatchTime().catch((error) => console.error(error));
+                  });
+                },
+                onStateChange: (event) => {
+                  if (event.data === YT.PlayerState.ENDED || event.data === YT.PlayerState.PAUSED) {
+                    sampleYoutubeWatchTime(true);
+                  } else {
+                    sampleYoutubeWatchTime();
+                  }
+                  if (!durationSaved && event.data === YT.PlayerState.PLAYING) {
+                    const duration = event.target.getDuration();
+                    if (duration > 0) {
+                      sendVideoProgress(form, "duration", duration).catch((error) => console.error(error));
+                      durationSaved = true;
+                    }
+                  }
+                  if (event.data === YT.PlayerState.ENDED) {
+                    const duration = event.target.getDuration();
+                    flushYoutubeWatchTime()
+                      .then(() => watchRequests)
+                      .then(() => sendVideoProgress(form, "complete", duration))
+                      .then((response) => {
+                        if (!response.ok) {
+                          throw new Error("ثبت تکمیل ویدیو با خطا روبه‌رو شد.");
+                        }
+                        window.location.reload();
+                      })
+                      .catch((error) => console.error(error));
+                  } else if (event.data === YT.PlayerState.PAUSED) {
+                    flushYoutubeWatchTime().catch((error) => console.error(error));
+                  }
+                },
+              },
+            });
+          });
+        };
+        const youtubeApi = document.createElement("script");
+        youtubeApi.src = "https://www.youtube.com/iframe_api";
+        document.head.appendChild(youtubeApi);
+      }
+    </script>
+  </body>
+</html>

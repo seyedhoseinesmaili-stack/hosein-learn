@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ثبت نام | موسسه حسین</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&display=swap");
+
+      :root {
+        --primary: #4f46e5;
+        --primary-2: #7c3aed;
+        --bg: #f4f7ff;
+        --card: rgba(255, 255, 255, 0.9);
+        --text: #111827;
+        --muted: #6b7280;
+        --line: #e5e7eb;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        background: linear-gradient(135deg, #eef2ff, #f8fafc);
+        font-family: "Vazirmatn", Tahoma, sans-serif;
+      }
+
+      .container {
+        width: min(1140px, 92%);
+        min-height: 720px;
+        display: grid;
+        grid-template-columns: 1.08fr 0.92fr;
+        background: rgba(255, 255, 255, 0.62);
+        border: 1px solid rgba(255, 255, 255, 0.8);
+        border-radius: 28px;
+        overflow: hidden;
+        box-shadow: 0 28px 60px rgba(79, 70, 229, 0.12);
+      }
+
+      .left {
+        background: linear-gradient(135deg, rgba(79, 70, 229, 0.98), rgba(124, 58, 237, 0.92));
+        color: white;
+        padding: 52px 42px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 700;
+        margin-bottom: 42px;
+      }
+
+      .brand-mark {
+        width: 42px;
+        height: 42px;
+        border-radius: 14px;
+        display: grid;
+        place-items: center;
+        background: rgba(255, 255, 255, 0.14);
+        font-size: 1.3rem;
+      }
+
+      .title {
+        font-size: clamp(2rem, 3vw, 3.1rem);
+        line-height: 1.4;
+        margin: 0 0 18px;
+      }
+
+      .subtitle {
+        color: rgba(255, 255, 255, 0.8);
+        line-height: 2;
+        font-size: 1rem;
+        max-width: 520px;
+      }
+
+      .feature-list {
+        margin-top: 32px;
+        display: grid;
+        gap: 16px;
+      }
+
+      .feature {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 12px 14px;
+        border-radius: 14px;
+      }
+
+      .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: white;
+        box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.14);
+      }
+
+      .right {
+        background: rgba(255, 255, 255, 0.72);
+        padding: 52px 34px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .card {
+        width: min(100%, 420px);
+        background: rgba(255, 255, 255, 0.8);
+        border: 1px solid rgba(229, 231, 235, 0.8);
+        border-radius: 24px;
+        box-shadow: 0 18px 40px rgba(15, 23, 42, 0.06);
+        padding: 28px 24px;
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 22px;
+      }
+
+      .header h2 {
+        margin: 0 0 8px;
+        font-size: 2rem;
+        color: var(--text);
+      }
+
+      .header p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.92rem;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .field {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      label {
+        color: #374151;
+        font-size: 0.9rem;
+        font-weight: 700;
+      }
+
+      input {
+        width: 100%;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 13px 14px;
+        font-size: 1rem;
+        background: white;
+        outline: none;
+        transition: 0.2s ease;
+      }
+
+      input:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.08);
+      }
+
+      .two-col {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+
+      .row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.84rem;
+        color: var(--muted);
+      }
+
+      .remember input {
+        width: 16px;
+        height: 16px;
+        accent-color: var(--primary);
+      }
+
+      a {
+        color: var(--primary);
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      button {
+        border: none;
+        border-radius: 12px;
+        padding: 14px 18px;
+        background: linear-gradient(135deg, var(--primary), var(--primary-2));
+        color: white;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        box-shadow: 0 12px 25px rgba(79, 70, 229, 0.25);
+      }
+
+      .login {
+        margin-top: 18px;
+        text-align: center;
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+
+      .error {
+        color: #b91c1c;
+        background: #fef2f2;
+        border: 1px solid #fecaca;
+        border-radius: 12px;
+        padding: 10px 12px;
+        font-size: 0.9rem;
+      }
+
+      @media (max-width: 870px) {
+        .container {
+          grid-template-columns: 1fr;
+        }
+        .left { padding: 36px 24px; }
+        .right { padding: 24px; }
+      }
+
+      @media (max-width: 520px) {
+        .two-col { grid-template-columns: 1fr; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="left">
+        <div class="brand">
+          <div class="brand-mark">🎓</div>
+          <span>موسسه حسین</span>
+        </div>
+
+        <h1 class="title">هم‌اکنون شروع کنید و مسیر رشد خود را طراحی کنید</h1>
+
+        <p class="subtitle">
+          با ثبت نام در پلتفرم آموزشی ما، به دوره‌های تخصصی، جلسات زنده، جزوه‌های کاربردی
+          و پشتیبانی حرفه‌ای دسترسی پیدا می‌کنید.
+        </p>
+
+        <div class="feature-list">
+          <div class="feature">
+            <span class="dot"></span>
+            <span>دسترسی به دوره‌های اختصاصی</span>
+          </div>
+          <div class="feature">
+            <span class="dot"></span>
+            <span>جلسات زنده و پشتیبانی آموزشی</span>
+          </div>
+          <div class="feature">
+            <span class="dot"></span>
+            <span>ثبت‌نام ساده و سریع</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="right">
+        <div class="card">
+          <div class="header">
+            <h2>ثبت نام</h2>
+            <p>حساب جدید بسازید و شروع کنید</p>
+          </div>
+
+          {% if error %}
+            <div class="error">{{ error }}</div>
+          {% endif %}
+
+          <form method="post">
+            {% csrf_token %}
+            <div class="two-col">
+              <div class="field">
+                <label for="first_name">نام</label>
+                <input id="first_name" name="first_name" type="text" placeholder="نام" />
+              </div>
+
+              <div class="field">
+                <label for="last_name">نام خانوادگی</label>
+                <input id="last_name" name="last_name" type="text" placeholder="نام خانوادگی" />
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="username">نام کاربری</label>
+              <input id="username" name="username" type="text" placeholder="نام کاربری" required />
+            </div>
+
+            <div class="field">
+              <label for="email">ایمیل</label>
+              <input id="email" name="email" type="email" placeholder="example@email.com" required />
+            </div>
+
+            <div class="field">
+              <label for="password">رمز عبور</label>
+              <input id="password" name="password" type="password" placeholder="رمز عبور خود را وارد کنید" required />
+            </div>
+
+            <div class="field">
+              <label for="confirm_password">تأیید رمز عبور</label>
+              <input id="confirm_password" name="confirm_password" type="password" placeholder="رمز عبور را مجدداً وارد کنید" required />
+            </div>
+
+            <button type="submit">ساخت حساب</button>
+          </form>
+
+          <div class="login">
+            قبلاً حساب داشته‌اید؟
+            <a href="/login/">ورود</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
