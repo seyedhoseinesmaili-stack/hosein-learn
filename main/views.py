@@ -5,7 +5,7 @@ from django.db.models import Count, F, Sum
 from django.http import HttpResponseBadRequest, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 
-from .models import Course, CourseVideo, Profile, UserCourseProgress, UserVideoProgress
+from .models import Course, Profile, UserCourseProgress, UserVideoProgress
 
 
 def home_view(request):

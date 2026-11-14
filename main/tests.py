@@ -14,7 +14,7 @@ class HomePageTests(TestCase):
         self.assertNotContains(response, 'id="agree"')
 
     def test_home_shows_only_active_courses_and_real_student_count(self):
-        student = User.objects.create_user(username="student", password="pass123")
+        User.objects.create_user(username="student", password="pass123")
         User.objects.create_user(username="admin", password="pass123", is_staff=True)
         active_course = Course.objects.create(
             title="دوره فعال",
