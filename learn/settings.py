@@ -31,7 +31,7 @@ def env_bool(name, default):
     raise ImproperlyConfigured(f"{name} must be a boolean value.")
 
 
-DEBUG = False
+DEBUG = env_bool("DJANGO_DEBUG", False)
 
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY") or os.environ.get("SECRET_KEY")
 if not SECRET_KEY:

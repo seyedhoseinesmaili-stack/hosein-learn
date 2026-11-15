@@ -34,10 +34,18 @@ python manage.py test
 - `DJANGO_SECURE_HSTS_SECONDS=31536000` فقط پس از اطمینان از HTTPS در تمام سایت
 - `DJANGO_TRUST_X_FORWARDED_PROTO=True` فقط اگر reverse proxy مطمئن این سرآیند را تنظیم و سرآیندهای ورودی کاربر را پاک‌سازی می‌کند
 
-برای اجرای production روی Linux از `gunicorn learn.wsgi:application` استفاده کنید. پس از تنظیم میزبان، فایل‌های static را جمع‌آوری کنید:
+برای اجرای production روی Linux از `gunicorn learn.wsgi:application` استفاده کنید. در Render، از پوشهٔ پروژه، Build Command را به شکل زیر تنظیم کنید تا جدول‌های دیتابیس قبل از شروع سرویس ساخته شوند:
 
 ```powershell
-python manage.py collectstatic --noinput
+pip install -r requirements.txt && python manage.py migrate && python manage.py collectstatic --noinput
 ```
+
+Start Command:
+
+```text
+gunicorn learn.wsgi:application
+```
+
+تنظیمات `DJANGO_SECRET_KEY`، `DJANGO_ALLOWED_HOSTS` و `DJANGO_CSRF_TRUSTED_ORIGINS` را در Environment سرویس Render وارد کنید. این پروژه در حال حاضر از SQLite استفاده می‌کند؛ برای حفظ اطلاعات کاربران در استقرارهای مجدد Render، دیتابیس پایدار مانند PostgreSQL را پیکربندی کنید.
 
 دیتابیس محلی و فایل‌های بارگذاری‌شده در `media/` عمداً در Git قرار نمی‌گیرند. برای production باید دیتابیس پایدار و فضای ذخیره‌سازی پایدار برای ویدیوها جداگانه تنظیم شود.
