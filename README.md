@@ -34,16 +34,16 @@ python manage.py test
 - `DJANGO_SECURE_HSTS_SECONDS=31536000` فقط پس از اطمینان از HTTPS در تمام سایت
 - `DJANGO_TRUST_X_FORWARDED_PROTO=True` فقط اگر reverse proxy مطمئن این سرآیند را تنظیم و سرآیندهای ورودی کاربر را پاک‌سازی می‌کند
 
-برای اجرای production روی Linux از `gunicorn learn.wsgi:application` استفاده کنید. در Render، از پوشهٔ پروژه، Build Command را به شکل زیر تنظیم کنید تا جدول‌های دیتابیس قبل از شروع سرویس ساخته شوند:
+برای اجرای production روی Linux از اسکریپت `start.sh` استفاده کنید. در Render، **Root Directory** باید پوشه‌ای باشد که `manage.py` و `requirements.txt` در آن قرار دارند (اگر ریشهٔ مخزن همین پوشه است، این گزینه را خالی بگذارید) و Build Command را این‌طور تنظیم کنید:
 
 ```sh
-pip install -r requirements.txt && python manage.py migrate --noinput && python manage.py collectstatic --noinput
+pip install -r requirements.txt && python manage.py collectstatic --noinput
 ```
 
-در Render، **Start Command** را هم دقیقاً به این مقدار تغییر دهید. اجرای migration در زمان شروع سرویس لازم است چون فایل SQLite ساخته‌شده در مرحلهٔ Build الزاماً در محیط اجرای سرویس وجود ندارد:
+**Start Command** را روی این مقدار بگذارید تا migration در محیط اجرای واقعی، پیش از Gunicorn اجرا شود:
 
 ```sh
-python manage.py migrate --noinput && gunicorn learn.wsgi:application
+bash start.sh
 ```
 
 تنظیمات `DJANGO_SECRET_KEY`، `DJANGO_ALLOWED_HOSTS` و `DJANGO_CSRF_TRUSTED_ORIGINS` را در Environment سرویس Render وارد کنید. این پروژه در حال حاضر از SQLite استفاده می‌کند؛ برای حفظ اطلاعات کاربران در استقرارهای مجدد Render، دیتابیس پایدار مانند PostgreSQL را پیکربندی کنید.
