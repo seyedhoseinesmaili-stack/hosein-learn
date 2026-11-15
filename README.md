@@ -40,10 +40,10 @@ python manage.py test
 pip install -r requirements.txt && python manage.py migrate --noinput && python manage.py collectstatic --noinput
 ```
 
-Start Command:
+در Render، **Start Command** را هم دقیقاً به این مقدار تغییر دهید. اجرای migration در زمان شروع سرویس لازم است چون فایل SQLite ساخته‌شده در مرحلهٔ Build الزاماً در محیط اجرای سرویس وجود ندارد:
 
-```text
-gunicorn learn.wsgi:application
+```sh
+python manage.py migrate --noinput && gunicorn learn.wsgi:application
 ```
 
 تنظیمات `DJANGO_SECRET_KEY`، `DJANGO_ALLOWED_HOSTS` و `DJANGO_CSRF_TRUSTED_ORIGINS` را در Environment سرویس Render وارد کنید. این پروژه در حال حاضر از SQLite استفاده می‌کند؛ برای حفظ اطلاعات کاربران در استقرارهای مجدد Render، دیتابیس پایدار مانند PostgreSQL را پیکربندی کنید.
