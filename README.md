@@ -36,8 +36,8 @@ python manage.py test
 
 برای اجرای production روی Linux از `gunicorn learn.wsgi:application` استفاده کنید. در Render، از پوشهٔ پروژه، Build Command را به شکل زیر تنظیم کنید تا جدول‌های دیتابیس قبل از شروع سرویس ساخته شوند:
 
-```powershell
-pip install -r requirements.txt && python manage.py migrate && python manage.py collectstatic --noinput
+```sh
+pip install -r requirements.txt && python manage.py migrate --noinput && python manage.py collectstatic --noinput
 ```
 
 Start Command:
