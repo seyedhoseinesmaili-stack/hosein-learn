@@ -1,5 +1,8 @@
+import tempfile
+
 from django.contrib.auth.models import User
-from django.test import TestCase
+from django.core.files.uploadedfile import SimpleUploadedFile
+from django.test import TestCase, override_settings
 from django.urls import reverse
 
 from .models import Course, CourseVideo, UserCourseProgress, UserVideoProgress
@@ -151,3 +154,58 @@ class AdminVideoUploadTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "پنل مدیریت آکادمی سید")
         self.assertContains(response, "main/admin-video-upload.js")
+
+
+class VideoStreamTests(TestCase):
+    def test_video_stream_supports_byte_ranges_when_debug_is_disabled(self):
+        user = User.objects.create_user(username="learner", password="pass123")
+        course = Course.objects.create(title="دوره ویدیو")
+        self.client.force_login(user)
+
+        with tempfile.TemporaryDirectory() as media_root:
+            with override_settings(MEDIA_ROOT=media_root, DEBUG=False):
+                video = CourseVideo.objects.create(
+                    course=course,
+                    title="ویدیوی نمونه",
+                    video_file=SimpleUploadedFile("sample.mp4", b"0123456789"),
+                )
+                response = self.client.get(
+                    reverse("video_stream", args=[video.id]),
+                    HTTP_RANGE="bytes=3-6",
+                )
+                body = b"".join(response.streaming_content)
+
+        self.assertEqual(response.status_code, 206)
+        self.assertEqual(response["Content-Range"], "bytes 3-6/10")
+        self.assertEqual(body, b"3456")
+
+    def test_video_stream_rejects_unsatisfiable_ranges(self):
+        user = User.objects.create_user(username="learner", password="pass123")
+        course = Course.objects.create(title="دوره ویدیو")
+        self.client.force_login(user)
+
+        with tempfile.TemporaryDirectory() as media_root:
+            with override_settings(MEDIA_ROOT=media_root, DEBUG=False):
+                video = CourseVideo.objects.create(
+                    course=course,
+                    title="ویدیوی نمونه",
+                    video_file=SimpleUploadedFile("sample.mp4", b"0123456789"),
+                )
+                response = self.client.get(
+                    reverse("video_stream", args=[video.id]),
+                    HTTP_RANGE="bytes=10-",
+                )
+
+        self.assertEqual(response.status_code, 416)
+        self.assertEqual(response["Content-Range"], "bytes */10")
+
+
+class LogoutTests(TestCase):
+    def test_logout_redirects_to_home(self):
+        user = User.objects.create_user(username="learner", password="pass123")
+        self.client.force_login(user)
+
+        response = self.client.post(reverse("logout"))
+
+        self.assertRedirects(response, reverse("home"))
+        self.assertNotIn("_auth_user_id", self.client.session)

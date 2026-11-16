@@ -1,11 +1,20 @@
+import mimetypes
+import re
+
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.db.models import Count, F, Sum
-from django.http import HttpResponseBadRequest, JsonResponse
+from django.http import (
+    HttpResponse,
+    HttpResponseBadRequest,
+    JsonResponse,
+    StreamingHttpResponse,
+)
 from django.shortcuts import get_object_or_404, redirect, render
+from django.views.decorators.http import require_http_methods
 
-from .models import Course, Profile, UserCourseProgress, UserVideoProgress
+from .models import Course, CourseVideo, Profile, UserCourseProgress, UserVideoProgress
 
 
 def home_view(request):
@@ -179,7 +188,85 @@ def course_detail(request, course_id):
     })
 
 
+@login_required(login_url="/login/")
+@require_http_methods(["GET", "HEAD"])
+def video_stream(request, video_id):
+    video = get_object_or_404(
+        CourseVideo.objects.filter(course__is_active=True),
+        pk=video_id,
+    )
+    if not video.has_local_file or not video.video_file.storage.exists(video.video_file.name):
+        return HttpResponse(status=404)
+
+    file_size = video.video_file.size
+    start = 0
+    end = file_size - 1
+    status_code = 200
+    range_header = request.headers.get("Range")
+
+    if range_header:
+        match = re.fullmatch(r"bytes=(\d*)-(\d*)", range_header.strip())
+        if not match or (not match.group(1) and not match.group(2)):
+            match = None
+
+        if match:
+            first, last = match.groups()
+            try:
+                if first:
+                    start = int(first)
+                    end = int(last) if last else file_size - 1
+                else:
+                    suffix_length = int(last)
+                    if suffix_length > 0:
+                        start = max(file_size - suffix_length, 0)
+                        end = file_size - 1
+                    else:
+                        start = file_size
+            except ValueError:
+                start = file_size
+
+            if start >= file_size or end < start:
+                response = HttpResponse(status=416)
+                response["Content-Range"] = f"bytes */{file_size}"
+                response["Accept-Ranges"] = "bytes"
+                return response
+
+            end = min(end, file_size - 1)
+            status_code = 206
+        else:
+            response = HttpResponse(status=416)
+            response["Content-Range"] = f"bytes */{file_size}"
+            response["Accept-Ranges"] = "bytes"
+            return response
+
+    content_length = max(end - start + 1, 0)
+    content_type = mimetypes.guess_type(video.video_file.name)[0] or "application/octet-stream"
+    response = HttpResponse(status=status_code) if request.method == "HEAD" else StreamingHttpResponse(
+        stream_video_file(video.video_file, start, content_length),
+        status=status_code,
+        content_type=content_type,
+    )
+    response["Accept-Ranges"] = "bytes"
+    response["Content-Length"] = str(content_length)
+    response["Cache-Control"] = "private, no-store"
+    if status_code == 206:
+        response["Content-Range"] = f"bytes {start}-{end}/{file_size}"
+    return response
+
+
+def stream_video_file(video_file, start, length):
+    with video_file.open("rb") as source:
+        source.seek(start)
+        remaining = length
+        while remaining:
+            chunk = source.read(min(64 * 1024, remaining))
+            if not chunk:
+                break
+            remaining -= len(chunk)
+            yield chunk
+
+
 def logout_view(request):
     logout(request)
-    return redirect("login")
+    return redirect("home")
 

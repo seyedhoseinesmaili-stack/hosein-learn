@@ -126,7 +126,7 @@
                 <div class="video-item">
                   {% if video.has_local_file %}
                     <video class="tracked-video" data-video-id="{{ video.id }}" controls preload="metadata" style="width:100%; height:260px; background:#0f172a; display:block;">
-                      <source src="{{ video.video_file.url }}" type="video/mp4" />
+                      <source src="{% url 'video_stream' video.id %}" type="video/mp4" />
                       مرورگر شما از نمایش ویدیو پشتیبانی نمی‌کند.
                     </video>
                   {% elif "youtube.com/embed/" in video.embed_url %}
