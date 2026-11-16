@@ -10,6 +10,10 @@ from main.models import (
     UserVideoProgress,
 )
 
+admin.site.site_header = "پنل مدیریت آکادمی سید"
+admin.site.site_title = "آکادمی سید"
+admin.site.index_title = "مدیریت آکادمی سید"
+
 
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
@@ -29,6 +33,9 @@ class CourseVideoAdmin(admin.ModelAdmin):
     list_display = ("course", "title", "duration_seconds", "order", "video_file")
     list_filter = ("course",)
     search_fields = ("title", "course__title")
+
+    class Media:
+        js = ("main/admin-video-upload.js",)
 
 
 @admin.register(UserCourseProgress)

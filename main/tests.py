@@ -34,6 +34,7 @@ class HomePageTests(TestCase):
         response = self.client.get("/")
 
         self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "آکادمی سید")
         self.assertContains(response, active_course.title)
         self.assertNotContains(response, inactive_course.title)
         self.assertNotContains(response, video.title)
@@ -78,7 +79,7 @@ class DashboardProgressTests(TestCase):
         self.assertEqual(dashboard.context["watched_hours"], 1)
         self.assertEqual(dashboard.context["watched_minutes"], 1)
         self.assertEqual(dashboard.context["watched_seconds_remainder"], 30)
-        self.assertContains(dashboard, "موسسه حسین")
+        self.assertContains(dashboard, "آکادمی سید")
 
         watch_response = self.client.post(
             reverse("course_detail", args=[course.id]),
@@ -134,3 +135,19 @@ class AdminWatchReportTests(TestCase):
         self.assertEqual(video_report.status_code, 200)
         self.assertContains(video_report, course.title)
         self.assertContains(video_report, video.title)
+
+
+class AdminVideoUploadTests(TestCase):
+    def test_video_form_uses_academy_brand_and_upload_progress_script(self):
+        admin_user = User.objects.create_superuser(
+            username="siteadmin",
+            email="admin@example.com",
+            password="pass123",
+        )
+        self.client.force_login(admin_user)
+
+        response = self.client.get(reverse("admin:main_coursevideo_add"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "پنل مدیریت آکادمی سید")
+        self.assertContains(response, "main/admin-video-upload.js")
