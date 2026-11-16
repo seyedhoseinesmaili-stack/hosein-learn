@@ -9,7 +9,7 @@ __pycache__/
 # Django and local data
 *.log
 local_settings.py
-
+staticfiles/
 
 # Environment variables and secrets
 .env
