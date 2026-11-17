@@ -157,6 +157,24 @@ class AdminVideoUploadTests(TestCase):
 
 
 class VideoStreamTests(TestCase):
+    def test_course_page_shows_message_when_video_file_is_missing(self):
+        user = User.objects.create_user(username="learner", password="pass123")
+        course = Course.objects.create(title="دوره ویدیو")
+        self.client.force_login(user)
+
+        with tempfile.TemporaryDirectory() as media_root:
+            with override_settings(MEDIA_ROOT=media_root):
+                video = CourseVideo.objects.create(
+                    course=course,
+                    title="ویدیوی گم‌شده",
+                    video_file="course_videos/missing.mp4",
+                )
+                response = self.client.get(reverse("course_detail", args=[course.id]))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "فایل این ویدیو روی سرور پیدا نشد")
+        self.assertNotContains(response, f'data-video-id="{video.id}"')
+
     def test_video_stream_supports_byte_ranges_when_debug_is_disabled(self):
         user = User.objects.create_user(username="learner", password="pass123")
         course = Course.objects.create(title="دوره ویدیو")

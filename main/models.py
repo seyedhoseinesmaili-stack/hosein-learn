@@ -50,6 +50,10 @@ class CourseVideo(models.Model):
         return bool(self.video_file and self.video_file.name)
 
     @property
+    def local_file_available(self):
+        return self.has_local_file and self.video_file.storage.exists(self.video_file.name)
+
+    @property
     def embed_url(self):
         if self.has_local_file:
             return self.video_file.url

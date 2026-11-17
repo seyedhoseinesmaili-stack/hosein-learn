@@ -66,6 +66,7 @@
       .video-list { display: grid; gap: 18px; }
       .video-item { border: 1px solid var(--line); border-radius: 16px; overflow: hidden; background: linear-gradient(180deg, #ffffff 0%, #f8faff 100%); }
       .video-item iframe { width: 100%; height: 260px; display: block; border: 0; }
+      .video-unavailable { min-height: 120px; display: grid; place-items: center; padding: 20px; background: #fef2f2; color: #b91c1c; text-align: center; }
       .video-info { padding: 14px 16px 16px; }
       .video-info h3 { margin: 0 0 12px; font-size: 1.1rem; }
       .video-actions { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
@@ -124,11 +125,13 @@
             <div class="video-list">
               {% for video in videos %}
                 <div class="video-item">
-                  {% if video.has_local_file %}
+                  {% if video.local_file_available %}
                     <video class="tracked-video" data-video-id="{{ video.id }}" controls preload="metadata" style="width:100%; height:260px; background:#0f172a; display:block;">
                       <source src="{% url 'video_stream' video.id %}" type="video/mp4" />
                       مرورگر شما از نمایش ویدیو پشتیبانی نمی‌کند.
                     </video>
+                  {% elif video.has_local_file %}
+                    <div class="video-unavailable" role="status">فایل این ویدیو روی سرور پیدا نشد. لطفاً با پشتیبانی تماس بگیرید.</div>
                   {% elif "youtube.com/embed/" in video.embed_url %}
                     <iframe class="youtube-player" data-video-id="{{ video.id }}" src="{{ video.embed_url }}?enablejsapi=1&amp;origin={{ request.scheme }}://{{ request.get_host }}" title="{{ video.title }}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
                   {% else %}
